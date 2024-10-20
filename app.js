@@ -7,6 +7,9 @@ const errorController = require('./controllers/error');
 const sequelize=require('./util/database');
 const Product =require("./models/product");
 const User =require("./models/user");
+const Cart =require("./models/cart");
+const CartItem =require("./models/cart-item");
+
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -35,8 +38,13 @@ app.use(shopRoutes);
 app.use(errorController.get404);
 
 Product.belongsTo(User,{constraints:true,onDelete:"CASCADE"});
-
 User.hasMany(Product);
+User.hasOne(Cart);
+Cart.belongsTo(User);
+Cart.belongsToMany(Product,{through:CartItem});
+Product.belongsToMany(Cart,{through:CartItem});
+
+
 sequelize
 .sync()
 .then(result =>{
@@ -49,14 +57,20 @@ sequelize
   return user;
 })
 .then(user =>{
-  console.log(user);
+  return user.createCart()
+
+})
+.then(cart =>{
+  
   const PORT = process.env.PORT || 4001; // Change to a different port
   app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
+
 })
 .catch(err =>{
   console.log(err)
 })
+
 
