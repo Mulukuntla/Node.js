@@ -57,10 +57,13 @@ const addExpense= async (req,res,next) =>{
       
 }
 
-const ITEMS_PER_PAGE=2
+const ITEMS_PER_PAGE_DEFAULT = 10;
 const getExpense=async (req,res,next)=>{
   console.log("Hi")
   const page= +req.query.page || 1
+  const pages= +req.query.pages || ITEMS_PER_PAGE_DEFAULT
+  console.log(pages)
+  ITEMS_PER_PAGE=pages
   await Expense.count({where:{userId:req.user.id}})
     .then(async (total)=>{
       totalItems=total
@@ -83,6 +86,9 @@ const getExpense=async (req,res,next)=>{
         lastPage:Math.ceil(totalItems/ITEMS_PER_PAGE)
 
       })
+    })
+    .catch(err =>{
+      console.log(err)
     })
   }
 
