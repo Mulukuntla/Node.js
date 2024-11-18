@@ -1,5 +1,5 @@
 const path = require('path');
-
+const fs=require("fs")
 const express = require('express');
 const bodyParser = require('body-parser');
   
@@ -13,10 +13,12 @@ const Expense= require("./models/ExpenseTracker")
 const Order=require("./models/orders")
 const Forgotpassword = require("./models/forgotPassword")
 const downloadss=require("./models/allDownloads")
-
-
 const sequelize=require('./util/database')
+console.log(process.env.NODE_ENV)
+const helmet=require("helmet")
+const compression=require("compression")
 
+const morgan=require("morgan")
 
 var cors=require("cors")
 const app = express();
@@ -24,7 +26,10 @@ const dotenv = require('dotenv');
 
 // get config vars
 dotenv.config();
-
+const accessLogStream=fs.createWriteStream(path.join(__dirname,"access.log"),{flags:"a"})
+app.use(helmet())
+app.use(compression())
+app.use(morgan("combined",{stream:accessLogStream}))
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
