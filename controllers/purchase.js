@@ -5,8 +5,7 @@ const jwt=require("jsonwebtoken")
 
 function generateAccessToken(id,name,ispremiumuser){
     return jwt.sign({userId:id,name:name,ispremiumuser:ispremiumuser},"hi")
-    
-  }
+}
   
 
 const purchasepremium=async (req,res,next)=>{
@@ -16,7 +15,6 @@ const purchasepremium=async (req,res,next)=>{
             key_secret: process.env.RAZORPAY_KEY_SECRET
         })
         const amount = 2500;
-
         rzp.orders.create({amount, currency: "INR"}, (err, order) => {
             if(err) {
                 throw new Error(err);
@@ -28,7 +26,8 @@ const purchasepremium=async (req,res,next)=>{
                 throw new Error(err)
             })
         })
-    } catch(err){
+    } 
+    catch(err){
         console.log(err);
         res.status(403).json({ message: 'Sometghing went wrong', error: err})
     }
@@ -46,24 +45,15 @@ const updatetransactionstatus=async (req,res,next)=>{
         const promise2=expense.update({ispremiumuser:true})
 
         Promise.all([promise1,promise2]).then(()=>{
-
             res.status(202).json({success:true,message:"Transaction Successful",token:generateAccessToken(req.user.id,undefined,true)})
         })
         .catch(err =>{
             throw new Error(err)
         })
-            
-            
-        
     }
     catch(err){
-        
         return res.status(403).json({message:"Something went wrong",error:err})
-    
-    
-    
     }
-   
 }
 
 const updatetransactionstatusfailed=async (req,res,next)=>{
@@ -78,13 +68,8 @@ const updatetransactionstatusfailed=async (req,res,next)=>{
         await res.status(202).json({success:true,message:"Transaction Failed"}) 
     }
     catch(err){
-        
         return res.status(403).json({message:"Something went wrong",error:err})
-    
-    
-    
     }
-   
 }
 
 

@@ -10,4 +10,8 @@ router.get("/get-expense",userauthenticate.authenticate,userController.getExpens
 
 router.delete("/delete-expense/:id",userauthenticate.authenticate,userController.deleteExpense)
 
+router.post("/day-expense",userauthenticate.authenticate,userController.dayExpense)
+router.post("/week-expense",userauthenticate.authenticate,userController.weekExpense)
+router.post("/month-expense",userauthenticate.authenticate,userController.monthExpense)
+
 module.exports = router;

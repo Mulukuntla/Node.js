@@ -2,30 +2,30 @@ const path = require('path');
 const fs=require("fs")
 const express = require('express');
 const bodyParser = require('body-parser');
-  
-const errorController = require('./controllers/error');
 const expenseTrackerRoutes = require('./routes/ExpenseTracker');
 const purchaseRoutes = require('./routes/purchase');
 const premiumFeatureRoutes = require('./routes/premiumFeature');
 const resetPasswordRoutes = require('./routes/forgotPassword')
+const income = require('./routes/incomeTracker');
+const expenseRoutes = require('./routes/Expense');
 const User= require("./models/Expense")
 const Expense= require("./models/ExpenseTracker")
 const Order=require("./models/orders")
 const Forgotpassword = require("./models/forgotPassword")
 const downloadss=require("./models/allDownloads")
-const sequelize=require('./util/database')
-console.log(process.env.NODE_ENV)
-const helmet=require("helmet")
-const compression=require("compression")
-
-const morgan=require("morgan")
-
-var cors=require("cors")
-const app = express();
+const incomeTracker=require("./models/income")
 const dotenv = require('dotenv');
 
 // get config vars
 dotenv.config();
+const sequelize=require('./util/database')
+console.log(process.env.NODE_ENV)
+const helmet=require("helmet")
+const compression=require("compression")
+const morgan=require("morgan")
+var cors=require("cors")
+const app = express();
+
 const accessLogStream=fs.createWriteStream(path.join(__dirname,"access.log"),{flags:"a"})
 app.use(helmet())
 app.use(compression())
@@ -42,11 +42,6 @@ app.use(cors());
 
 
 
-const expenseRoutes = require('./routes/Expense');
-
-
-app.set('view engine', 'ejs');
-app.set('views', 'views');
 
 
 
@@ -56,6 +51,7 @@ app.use("/expense",expenseTrackerRoutes)
 app.use("/purchase",purchaseRoutes)
 app.use("/premium",premiumFeatureRoutes)
 app.use('/password', resetPasswordRoutes);
+app.use("/income",income)
 
 
 
@@ -72,6 +68,9 @@ Forgotpassword.belongsTo(User);
 User.hasMany(downloadss);
 downloadss.belongsTo(User);
 
+User.hasMany(incomeTracker)
+incomeTracker.belongsTo(User)
+
 
 app.get('/search', (req, res) => {
   const query = req.query.query;
@@ -83,7 +82,7 @@ app.get('/search', (req, res) => {
 });
 
 
-app.use(errorController.get404);
+
 
 sequelize
 .sync()

@@ -2,14 +2,14 @@ const Sequelize=require("sequelize");
 
 const sequelize=require("../util/database");
 
-const Expense=sequelize.define("ExpenseTracker",{
+const income=sequelize.define("incomeTracker",{
   id:{
     type: Sequelize.INTEGER,
     autoIncrement:true,
     allowNull:false,
     primaryKey:true
   },
-  expense: Sequelize.INTEGER,
+  income: Sequelize.INTEGER,
   description:{
     type:Sequelize.STRING,
     
@@ -36,4 +36,4 @@ const Expense=sequelize.define("ExpenseTracker",{
  
 });
 
-module.exports = Expense;
+module.exports = income;
