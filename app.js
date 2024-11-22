@@ -52,7 +52,11 @@ app.use("/purchase",purchaseRoutes)
 app.use("/premium",premiumFeatureRoutes)
 app.use('/password', resetPasswordRoutes);
 app.use("/income",income)
+app.use((req,res)=>{
+  console.log("urll"+req.url)
+res.sendFile(path.join(__dirname,`public/${req.url}`));
 
+})
 
 
 User.hasMany(Expense)

@@ -16,7 +16,9 @@ const purchasepremium=async (req,res,next)=>{
         })
         const amount = 2500;
         rzp.orders.create({amount, currency: "INR"}, (err, order) => {
+            console.log(err)
             if(err) {
+                console.log(err)
                 throw new Error(err);
             }
             req.user.createOrder({ orderid: order.id, status: 'PENDING'}).then(() => {

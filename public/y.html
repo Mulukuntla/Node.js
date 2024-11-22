@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Day to Day Expenses</title>
+  <link rel="stylesheet" href="dailyBasis.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Day to to expenses</h1>
+      <form onsubmit="dayExpense(event)">
+        <input type="date"></input></p>
+        <button type="submit">Submit</button>
+
+      </form>
+      
+    </header>
+    
+    <section class="table-section">
+      <h2>Selected day expenses</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Income</th>
+            <th>Expense</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>01-03-2021</td>
+            <td>Milk</td>
+            <td>Milk</td>
+            <td>0</td>
+            <td>60.00</td>
+          </tr>
+          <!-- Add more rows as needed -->
+        </tbody>
+      </table>
+    </section>
+    
+    <section class="summary-section">
+      <h2>Yearly Report</h2>
+      <p>Income: ₹60,000.00 | Expense: ₹5,670.00 | Savings: ₹54,330.00</p>
+    </section>
+
+    <section class="notes-section">
+      <h2>Notes Report 2021</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>11-02-2021</td>
+            <td>Gave advance to construction.</td>
+          </tr>
+          <!-- Add more rows as needed -->
+        </tbody>
+      </table>
+    </section>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="./dailyBasis.js"></script>
+</body>
+</html>
