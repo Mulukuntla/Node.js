@@ -56,9 +56,12 @@ const forgotpassword = async (req, res) => {
 const resetpassword = (req, res) => {
     const id =  req.params.id;
     console.log(id)
-    Forgotpassword.findOne({ where : { id }}).then(forgotpasswordrequest => {
+    Forgotpassword.findOne({ where : { id:id,active:true}}).then(forgotpasswordrequest => {
+        console.log(forgotpasswordrequest)
+       
         
-        
+        if(forgotpasswordrequest !=null){
+            forgotpasswordrequest.update({ active: false});
             
             res.status(200).send(`<html>
                                     <script>
@@ -76,9 +79,19 @@ const resetpassword = (req, res) => {
                                 </html>`
                                 )
             res.end()
+            }
+            else{
+                res.status(200).send(`<html>
+                   
 
+                    <h1>Link Expired</h1>
+                </html>`
+                )
+            }
+            
         
     }).catch(err =>{
+        
         console.log(err)
     })
   
@@ -109,7 +122,7 @@ const updatepassword = async (req, res) => {
                                 throw new Error(err);
                             }
                             user.update({ password: hash }).then(() => {
-                                res.status(201).json({message: 'Successfuly update the new password'})
+                                res.status(201).json({message: 'Successfuly updated new password'})
                             })
                         });
                     });

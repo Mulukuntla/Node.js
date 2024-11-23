@@ -12,6 +12,7 @@ const User= require("./models/Expense")
 const Expense= require("./models/ExpenseTracker")
 const Order=require("./models/orders")
 const Forgotpassword = require("./models/forgotPassword")
+const downloadss=require("./models/allDownloads")
 
 
 const sequelize=require('./util/database')
@@ -51,6 +52,12 @@ app.use("/purchase",purchaseRoutes)
 app.use("/premium",premiumFeatureRoutes)
 app.use('/password', resetPasswordRoutes);
 
+app.use((req,res)=>{
+  console.log("urll",req.url)
+res.sendFile(path.join(__dirname,`public/${req.url}`));
+
+})
+
 
 
 User.hasMany(Expense)
@@ -61,6 +68,10 @@ Order.belongsTo(User)
 
 User.hasMany(Forgotpassword);
 Forgotpassword.belongsTo(User);
+
+
+User.hasMany(downloadss);
+downloadss.belongsTo(User);
 
 
 app.get('/search', (req, res) => {
