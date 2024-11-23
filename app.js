@@ -20,16 +20,11 @@ const dotenv = require('dotenv');
 dotenv.config();
 const sequelize=require('./util/database')
 console.log(process.env.NODE_ENV)
-const helmet=require("helmet")
-const compression=require("compression")
-const morgan=require("morgan")
+
 var cors=require("cors")
 const app = express();
 
-const accessLogStream=fs.createWriteStream(path.join(__dirname,"access.log"),{flags:"a"})
-app.use(helmet())
-app.use(compression())
-app.use(morgan("combined",{stream:accessLogStream}))
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -53,8 +48,8 @@ app.use("/premium",premiumFeatureRoutes)
 app.use('/password', resetPasswordRoutes);
 app.use("/income",income)
 app.use((req,res)=>{
-  console.log("urll"+req.url)
-res.sendFile(path.join(__dirname,`public/${req.url}`));
+  console.log("urll",req.url)
+res.sendFile(path.join(__dirname,`public/signin.html`));
 
 })
 

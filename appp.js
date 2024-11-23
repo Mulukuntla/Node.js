@@ -94,6 +94,17 @@ async function getSortedTransactions(req, week, year) {
   }
 }
 
+------------------------------------------------->
+DB_NAME="Expensetracker"
+DB_USERNAME="Saketh"
+DB_PASSWORD="Saketh1234"
+DB_HOST="database-1.cl2ewoagg6xg.eu-north-1.rds.amazonaws.com"
+TOCKEN_SECRET="hi"
+RAZORPAY_KEY_ID="rzp_test_gM54lkHEXhsDvO"
+RAZORPAY_KEY_SECRET="0j1g3ErpySG1RDDi2aW172gL"
+
+
+
 module.exports={
     getUserLeaderBoard
 }
