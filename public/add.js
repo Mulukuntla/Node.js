@@ -11,7 +11,7 @@ function handleFormSubmit(event) {
     category
   };
   const token=localStorage.getItem("token")
-  axios.post("`http://51.20.67.98:4000/expense/add-expense",obj,{headers :{"Authorization" :token}}) 
+  axios.post("http://51.20.67.98:4000/expense/add-expense",obj,{headers :{"Authorization" :token}}) 
     .then((response) => {
       console.log(response.data.newUserDetail)
       console.log("created")

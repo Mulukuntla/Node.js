@@ -1,6 +1,12 @@
 const Expense= require("../models/Expense")
+const ExpenseTracker= require("../models/ExpenseTracker")
 const bcrypt = require('bcrypt');
 const jwt=require("jsonwebtoken")
+const AWS=require("aws-sdk")
+const UserServices=require("../services/userservices")
+const S3service=require("../services/S3services")
+const allDownloads= require("../models/allDownloads")
+
 function isstringinvalid(string){
   console.log(string)
   if(string.length==0){
@@ -86,12 +92,55 @@ const signin= async (req,res,next) =>{
   }
 }
 
+const download= async (req,res,next) =>{
+  try{
+    const expenses= await UserServices.getExpenses(req)
+    console.log(expenses)
+    const stringifiedExpenses=JSON.stringify(expenses)
+    const userId=req.user.id
+    
+    const filename=`Expense${userId}/${new Date()}.txt`
+    const fileUrl=await S3service.uploadToS3(stringifiedExpenses,filename)
+    const data=await allDownloads.create({date:new Date(),links:fileUrl,userId:req.user.id})
+    console.log("data",data)
+    res.status(200).json({fileUrl,success:true})
+    
+  
 
+  }
+  catch(err){
+    console.log(err)
+    res.status(500).json({fileUrl:"",success:false,err:err})
+
+  }
+ 
+  
+}
+const totaldownloads= async (req,res,next) =>{
+  try{
+   
+    const data=await allDownloads.findAll({where:{userId:req.user.id}})
+    console.log(data)
+    res.status(200).json({totallinks:data,success:false})
+    
+  
+
+  }
+  catch(err){
+    console.log(err)
+    res.status(500).json({fileUrl:"",success:false,err:err})
+
+  }
+ 
+  
+}
 
 
     
 module.exports={
     signup,
-    signin
+    signin,
+    download,
+    totaldownloads
     
 }

@@ -15,7 +15,7 @@ async function handleFormSubmit(event) {
       category
     };
     const token=localStorage.getItem("token")
-    const response=await axios.post("`http://51.20.67.98:4000/expense/add-expense",obj,{headers :{"Authorization" :token}}) 
+    const response=await axios.post("http://51.20.67.98:4000/expense/add-expense",obj,{headers :{"Authorization" :token}}) 
     console.log(response.data.newUserDetail)
     console.log("created")
     displayUserOnScreen(response.data.newUserDetail)
@@ -59,17 +59,13 @@ function fetchAndDisplayUsers(allUsers) {
   console.log(allUsers)
   const a = document.getElementById("listOfItems");
   var b;
-  if(allUsers.length!=0){
-    console.log("Hii   "+allUsers.length)
-    b=`<ul id="a"><h4>Expenses</h4></ul>`
-  }
-  else{
+  
     console.log("Hello")
   b=`<ul id="a"><h4>Expenses</h4>
     <a id="aa">add expenses....</a>
     </ul>
   `
-  }
+  
   a.innerHTML=b
   allUsers.forEach(user => {
     console.log("HIII")
@@ -131,7 +127,7 @@ function removeUserFromScreen(userId) {
 document.getElementById("rzp-button").onclick=async function (e){
   try{
     const token=localStorage.getItem("token")
-    const response=await axios.get("`http://51.20.67.98:4000/purchase/premiummembership",{headers :{"Authorization" :token}})
+    const response=await axios.get("http://51.20.67.98:4000/purchase/premiummembership",{headers :{"Authorization" :token}})
     console.log(response)
     var options=
     {
@@ -139,7 +135,7 @@ document.getElementById("rzp-button").onclick=async function (e){
       "order_id":response.data.order.id,//for on time payment
       //This handler function handles the successful payment
       "handler":async function (response){
-        const transactionResponse=await axios.post("`http://51.20.67.98:4000/purchase/updatetransactionstatus",{
+        const transactionResponse=await axios.post("http://51.20.67.98:4000/purchase/updatetransactionstatus",{
           order_id:options.order_id,
           payment_id:response.razorpay_payment_id
         },{headers :{"Authorization" :token}})
@@ -158,7 +154,7 @@ document.getElementById("rzp-button").onclick=async function (e){
     rzp1.open()
     e.preventDefault()
     rzp1.on("payment.failed",async function (response){
-      const transactionResponses=await axios.post("`http://51.20.67.98:4000/purchase/updatetransactionstatusfailed",{
+      const transactionResponses=await axios.post("http://51.20.67.98:4000/purchase/updatetransactionstatusfailed",{
       order_id:options.order_id,
       payment_id:response.error.metadata.payment_id
     },{headers :{"Authorization" :token}});
@@ -179,7 +175,7 @@ async function showLeaderBoard(){
       totaldownload.remove()
     }
     const token=localStorage.getItem("token")
-    const userLeaderBoardArray=await axios.get("`http://51.20.67.98:4000/premium/showLeaderboard",{headers :{"Authorization" :token}})
+    const userLeaderBoardArray=await axios.get("http://51.20.67.98:4000/premium/showLeaderboard",{headers :{"Authorization" :token}})
     console.log(userLeaderBoardArray.data.userLeaderBoardDetails)
     const leaderboardElem=document.getElementById("leaderboard")
     const b=`<ul id=leader></ul>`
@@ -211,7 +207,7 @@ async function download(){
     totaldownload.remove()
   }
   const token=localStorage.getItem("token")
-  const response=await axios.get('`http://51.20.67.98:4000/user/download', { headers: {"Authorization" : token} })
+  const response=await axios.get('http://51.20.67.98:4000/user/download', { headers: {"Authorization" : token} })
   if(response.status === 200){
     console.log(response)
     const a=document.getElementById("showUrl")
@@ -239,7 +235,7 @@ async function totaldownload(){
       leaderboard.remove()
     }
     const token=localStorage.getItem("token")
-    const response=await axios.get('`http://51.20.67.98:4000/user/totaldownloads', { headers: {"Authorization" : token} })
+    const response=await axios.get('http://51.20.67.98:4000/user/totaldownloads', { headers: {"Authorization" : token} })
     if(response.status === 200){
     console.log(response.data)
     if(response.data.totallinks.length===0){
@@ -379,7 +375,7 @@ async function handleFormIncomeSubmit(event) {
     };
     console.log(income,description,category)
     const token=localStorage.getItem("token")
-    const response=await axios.post("`http://51.20.67.98:4000/income/add-income",obj,{headers :{"Authorization" :token}}) 
+    const response=await axios.post("http://51.20.67.98:4000/income/add-income",obj,{headers :{"Authorization" :token}}) 
     console.log(response)
     displayUserOnScreenIncome(response.data.newUserIncome)
     document.getElementById("income").value = "";
@@ -403,13 +399,10 @@ function fetchAndDisplayUsersIncome(allUsers){
   console.log("Hi")
   console.log(allUsers)
   const a = document.getElementById("listOfIncomes");
-  if(allUsers.length!=0){
-    b=`<ul id="b"><h4>Incomes</h4></ul>`
-  }
-  else{
-    b=`<ul id="b"><h4>Incomes</h4></ul>
+  
+  var b=`<ul id="b"><h4>Incomes</h4></ul>
     <a id="bb">add incomess...</a>`
-  }
+  
   
   a.innerHTML=b
   allUsers.forEach(user => {
